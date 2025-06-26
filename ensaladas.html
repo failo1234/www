@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tecnología - TechStore Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0f3460;
+            --secondary-color: #16213e;
+            --accent-color: #e94560;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-dark: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 100%);
+            --text-light: #f0f0f0;
+            --text-dark: #333;
+            --border-radius: 15px;
+            --box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        .header-premium {
+            background: var(--gradient-dark);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        .brand-container {
+            text-decoration: none;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            padding: 8px;
+        }
+
+        .brand-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-link {
+            color: var(--text-light) !important;
+            font-weight: 500;
+            padding: 0.75rem 1.25rem !important;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--gradient-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+                /* Hero Section */
+        .hero-section {
+            position: relative;
+            height: 80vh;
+            min-height: 500px;
+            overflow: hidden;
+        }
+        
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            filter: brightness(0.7);
+        }
+        
+        .hero-content {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            z-index: 1;
+        }
+        
+        .hero-heading {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0, 212, 255, 0.3);
+            animation: fadeInUp 1s ease;
+        }
+        
+        .hero-subheading {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1.2s ease;
+        }
+        
+        
+        /* Estilos para los productos */
+        .product-filter {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+        
+        .filter-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        .filter-item {
+            display: block;
+            padding: 8px 15px;
+            margin: 5px 0;
+            border-radius: 50px;
+            color: var(--dark);
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .filter-item:hover, .filter-item.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--tech-blue) 100%);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .category-icon {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .product-card {
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            height: 100%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 212, 255, 0.1);
+        }
+        
+        .product-img {
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        
+        .product-title {
+            font-weight: 600;
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .product-price {
+            color: var(--tech-blue);
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        
+        .price-old {
+            text-decoration: line-through;
+            color: #adb5bd;
+            font-size: 0.9rem;
+        }
+        
+        .product-rating {
+            color: #ffc107;
+        }
+        
+        .quick-view {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50px;
+            padding: 8px 20px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .product-card:hover .quick-view {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        .product-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        
+        .wishlist-btn {
+            background: none;
+            border: none;
+            color: #dc3545;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+        
+        .wishlist-btn:hover {
+            transform: scale(1.2);
+        }
+        
+        .cart-btn {
+            flex-grow: 1;
+            margin-left: 10px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--tech-blue) 100%);
+            border: none;
+            color: white;
+            border-radius: 50px;
+            padding: 8px 15px;
+            transition: all 0.3s;
+        }
+        
+        .cart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+        
+        /* Pagination */
+        .pagination .page-item .page-link {
+            color: var(--primary);
+            border: none;
+            margin: 0 5px;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .pagination .page-item.active .page-link {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--tech-blue) 100%);
+            color: white;
+        }
+        
+        .pagination .page-item .page-link:hover {
+            background-color: rgba(0, 212, 255, 0.1);
+        }
+        
+        /* Newsletter Section */
+        .newsletter-section {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--tech-blue) 100%);
+            padding: 60px 0;
+            margin-top: 60px;
+        }
+        
+        .newsletter-heading {
+            color: white;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .newsletter-subheading {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 30px;
+        }
+        
+        .newsletter-form {
+            background: white;
+            border-radius: 50px;
+            overflow: hidden;
+            padding: 5px;
+            box-shadow
+                    .newsletter-input {
+            border: none;
+            outline: none;
+            padding: 15px 20px;
+            background: none;
+        }
+        
+        .newsletter-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--tech-blue) 100%);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .newsletter-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.1);
+        }
+        
+        /* Footer */
+        .arabic-theme-footer {
+            background-color: var(--dark);
+            color: var(--light);
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48cGF0aCBkPSJNMzAgMTVMMTUgMzBsMTUgMTUgMTUtMTV6IiBmaWxsPSJyZ2JhKDI1NSwgMjU1LCAyNTUsIDAuMDUpIi8+PC9zdmc+');
+        }
+        
+        .decorative-pattern {
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48cGF0aCBkPSJNMzAgMTVMMTUgMzBsMTUgMTUgMTUtMTV6IiBmaWxsPSJyZ2JhKDI1NSwgMjU1LCAyNTUsIDAuMDUpIi8+PC9zdmc+');
+        }
+
+        .logo-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .text-gold {
+            color: var(--secondary) !important;
+        }
+        
+        .arabic-font {
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 1px;
+        }
+        
+        .arabic-subtitle {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+        
+        .arabic-subtitle:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(to right, var(--secondary), transparent);
+        }
+        
+        .arabic-description {
+            line-height: 1.8;
+        }
+        
+        .arabic-list li {
+            transition: all 0.3s ease;
+        }
+        
+        .arabic-list li:hover {
+            transform: translateX(5px);
+        }
+        
+        .arabic-input {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .arabic-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .arabic-contact-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-accent-soft {
+            background-color: rgba(0, 212, 255, 0.2);
+            color: var(--tech-blue);
+        }
+        
+        .btn-gold-soft {
+            background-color: rgba(172, 120, 43, 0.2);
+            color: var(--secondary);
+        }
+        
+        .arabic-social-container {
+            position: relative;
+            padding: 15px 0;
+        }
+        
+        .arabic-social-container:before, .arabic-social-container:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 35%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+        
+        .arabic-social-container:before {
+            left: 0;
+        }
+        
+        .arabic-social-container:after {
+            right: 0;
+        }
+        
+        .arabic-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+        
+        .ornament {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 20px;
+            background-color: var(--dark);
+            z-index: 1;
+            text-align: center;
+        }
+        
+        .ornament:before {
+            content: '❖';
+            color: var(--secondary);
+            font-size: 14px;
+            line-height: 20px;
+        }
+        
+        .back-to-top {
+            transition: all 0.3s ease;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+        }
+        
+        .contact-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .contact-icon:hover {
+            transform: rotate(15deg);
+        }
+        
+        /* Animaciones */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-fadeIn {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero-heading {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-section {
+                height: 50vh;
+            }
+            .hero-heading {
+                font-size: 2rem;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+   <header class="header-premium py-3 sticky-top">
+    <div class="container position-relative" style="z-index: 1;">
+        <nav class="navbar navbar-expand-lg navbar-dark p-0">
+            <div class="container-fluid p-0">
+                <a class="navbar-brand d-flex align-items-center brand-container" href="index.html">
+                    <img src="https://png.pngtree.com/png-vector/20220622/ourmid/pngtree-technical-support-customer-care-service-png-image_5231980.png" alt="TechStore Pro Logo" class="me-3 logo-img">
+                    <span class="brand-text">TechStore Pro</span>
+                </a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html">
+                                <i class="fas fa-home me-1"></i> Inicio
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="services.html">
+                                <i class="fas fa-mobile-alt me-1"></i>  Servicios
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html">
+                                <i class="fas fa-keyboard me-1"></i> Contactos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="productos.html">
+                                <i class="fas fa-microchip me-1"></i>  Productos
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="d-none d-lg-block">
+                    <a href="https://example.com/contacto" class="btn btn-contacto">
+                        <i class="fas fa-phone-alt me-2"></i> Contáctanos
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>
+
+<!-- Hero Section -->
+   <section class="hero-section" style="position: relative; height: 100vh; overflow: hidden;">
+  <iframe
+    src="https://www.youtube.com/embed/hikfhyveAvA?autoplay=1&mute=1&loop=1&playlist=hikfhyveAvA"
+    frameborder="0"
+    allow="autoplay; fullscreen"
+    allowfullscreen
+    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none;">
+  </iframe>
+
+  <!-- Overlay oscuro para mejor lectura -->
+  <div style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.4); z-index:1;"></div>
+
+  <!-- Texto centrado abajo -->
+  <div style="
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: white;
+    z-index: 2;
+    width: 90%;
+    max-width: 700px;
+  ">
+    <h1 class="hero-heading" style="margin:0; font-size: 2.5rem;">
+      Nuestros <span class="text-tech-blue">Productos Tecnológicos</span>
+    </h1>
+    <p class="hero-subheading" style="font-size: 1.25rem; margin-top: 0.5rem;">
+      Descubre la última tecnología con nuestra selección premium
+    </p>
+  </div>
+</section>
+
+
+
+    <!-- Productos Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar de filtros -->
+                <div class="col-lg-3 mb-4">
+                    <div class="product-filter sticky-lg-top" style="top: 100px;">
+                        <h4 class="filter-title mb-4">Categorías</h4>
+                        <a href="productos.html" class="filter-item"><i class="fas fa-mobile-alt category-icon"></i> Todos los productos</a>
+                        <a href="carnes.html" class="filter-item "><i class="fas fa-mobile-alt category-icon"></i> Smartphones</a>
+                        <a href="ensaladas.html" class="filter-item active"><i class="fas fa-keyboard category-icon"></i> Periféricos</a>
+                        <a href="entradas.html" class="filter-item"><i class="fas fa-microchip category-icon"></i> Componentes</a>
+                        <a href="postres.html" class="filter-item"><i class="fas fa-headphones category-icon"></i> Audio</a>
+                        <a href="platos.html" class="filter-item"><i class="fas fa-watch category-icon"></i> Smartwatch</a>
+                        
+                        <hr class="my-4">
+                        
+                        <h4 class="filter-title mb-4">Filtrar por</h4>
+                        <div class="mb-3">
+                            <h6 class="mb-2">Precio</h6>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="price1">
+                                <label class="form-check-label" for="price1">
+                                    S/0 - S/500
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="price2">
+                                <label class="form-check-label" for="price2">
+                                    S/500 - S/1000
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="price3">
+                                <label class="form-check-label" for="price3">
+                                    S/1000 - S/2000
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="price4">
+                                <label class="form-check-label" for="price4">
+                                    Más de S/2000
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <h6 class="mb-2">Disponibilidad</h6>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="stock1" checked>
+                                <label class="form-check-label" for="stock1">
+                                    En stock
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="stock2">
+                                <label class="form-check-label" for="stock2">
+                                    Por encargo
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <h6 class="mb-2">Especiales</h6>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="special1">
+                                <label class="form-check-label" for="special1">
+                                    Oferta
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="special2">
+                                <label class="form-check-label" for="special2">
+                                    Nuevo
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="special3">
+                                <label class="form-check-label" for="special3">
+                                    Popular
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-tech w-100 mt-3">
+                            <i class="fas fa-filter me-2"></i> Aplicar filtros
+                        </button>
+                    </div>
+                </div>
+<!-- Lista de productos -->
+<div class="col-lg-9">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+        <h2 class="mb-0">Todos los productos <span class="badge bg-secondary">28</span></h2>
+        <div class="d-flex align-items-center mt-2 mt-md-0">
+            <div class="dropdown me-3">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="sortDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    Ordenar por
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="sortDropdown">
+                    <li><a class="dropdown-item" href="#">Más recientes</a></li>
+                    <li><a class="dropdown-item" href="#">Precio: de menor a mayor</a></li>
+                    <li><a class="dropdown-item" href="#">Precio: de mayor a menor</a></li>
+                    <li><a class="dropdown-item" href="#">Popularidad</a></li>
+                </ul>
+            </div>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-secondary">
+                    <i class="fas fa-th"></i>
+                </button>
+                <button type="button" class="btn btn-outline-secondary">
+                    <i class="fas fa-list"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row g-4">
+            <!-- PERIFÉRICOS -->
+        <!-- Producto 5 -->
+         <div class="col-md-4">
+    <div class="card product-card">
+        <div class="position-relative">
+            <img src="https://phantom.pe/media/catalog/product/cache/84b69ba88e8fb1014875c832a28ffc04/a/u/audifonos_logitech_g_pro_x_2_negro_1_.jpg" class="card-img-top product-img" alt="Logitech G Pro X">
+            <span class="badge bg-warning product-badge">Gaming</span>
+            <div class="quick-view">
+                <a href="#" class="btn btn-sm btn-light">Vista rápida</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <h5 class="product-title">Logitech G Pro X</h5>
+            <div class="product-rating mb-2">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
+                <span class="text-muted ms-2">(42)</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div><span class="product-price">S/599.00</span></div>
+                <span class="badge bg-success">En stock</span>
+            </div>
+            <p class="text-muted small mb-3">Audífonos con sonido DTS:X 2.0, micrófono Blue VO!CE y diseño pro para eSports.</p>
+            <div class="product-actions">
+                <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                <button class="cart-btn"><i class="fas fa-cart-plus me-2"></i> Añadir al carrito</button>
+            </div>
+        </div>
+    </div>
+</div>
+         
+<div class="col-md-4">
+    <div class="card product-card">
+        <div class="position-relative">
+            <img src="https://www.efe.com.pe/media/catalog/product/t/e/tecl2024272_2p.jpg?quality=80&bg-color=255,255,255&fit=bounds&height=700&width=700&canvas=700:700" class="card-img-top product-img" alt="Razer BlackWidow V4">
+            <span class="badge bg-warning product-badge">RGB</span>
+            <div class="quick-view">
+                <a href="#" class="btn btn-sm btn-light">Vista rápida</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <h5 class="product-title">Razer BlackWidow V4</h5>
+            <div class="product-rating mb-2">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                <span class="text-muted ms-2">(57)</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div><span class="product-price">S/729.00</span></div>
+                <span class="badge bg-success">En stock</span>
+            </div>
+            <p class="text-muted small mb-3">Teclado mecánico con switches verdes Razer, iluminación Chroma RGB y teclas macro.</p>
+            <div class="product-actions">
+                <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                <button class="cart-btn"><i class="fas fa-cart-plus me-2"></i> Añadir al carrito</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-4">
+    <div class="card product-card">
+        <div class="position-relative">
+            <img src="https://cdn.panacompu.com/cdn-img/pv/logitech-mx-master-3s-view-white-side.jpg" class="card-img-top product-img" alt="Logitech MX Master 3S">
+            <span class="badge bg-warning product-badge">Pro</span>
+            <div class="quick-view">
+                <a href="#" class="btn btn-sm btn-light">Vista rápida</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <h5 class="product-title">Logitech MX Master 3S</h5>
+            <div class="product-rating mb-2">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i><i class="far fa-star"></i>
+                <span class="text-muted ms-2">(34)</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div><span class="product-price">S/489.00</span></div>
+                <span class="badge bg-success">En stock</span>
+            </div>
+            <p class="text-muted small mb-3">Mouse ergonómico con desplazamiento MagSpeed, 8000 DPI y conectividad multi-dispositivo.</p>
+            <div class="product-actions">
+                <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                <button class="cart-btn"><i class="fas fa-cart-plus me-2"></i> Añadir al carrito</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-4">
+    <div class="card product-card">
+        <div class="position-relative">
+            <img src="https://resource.logitech.com/w_800,c_limit,q_auto,f_auto,dpr_1.0/d_transparent.gif/content/dam/logitech/en/products/webcams/c920s/gallery/c920s-gallery-1.png" class="card-img-top product-img" alt="Logitech C920s HD Pro">
+            <span class="badge bg-warning product-badge">Reuniones</span>
+            <div class="quick-view">
+                <a href="#" class="btn btn-sm btn-light">Vista rápida</a>
+            </div>
+        </div>
+        <div class="card-body">
+            <h5 class="product-title">Logitech C920s HD Pro</h5>
+            <div class="product-rating mb-2">
+                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                <span class="text-muted ms-2">(48)</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div><span class="product-price">S/369.00</span></div>
+                <span class="badge bg-success">En stock</span>
+            </div>
+            <p class="text-muted small mb-3">Cámara web Full HD 1080p con enfoque automático, micrófono dual y obturador de privacidad.</p>
+            <div class="product-actions">
+                <button class="wishlist-btn"><i class="far fa-heart"></i></button>
+                <button class="cart-btn"><i class="fas fa-cart-plus me-2"></i> Añadir al carrito</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <div class="col-md-4">
+            <div class="card product-card">
+                <div class="position-relative">
+                    <img src="https://ezpc.pe/wp-content/uploads/2022/07/CH-9127414-NA.jpg" class="card-img-top product-img" alt="Teclado Mecánico RGB Corsair K95">
+                    <span class="badge bg-info product-badge">Gaming</span>
+                    <div class="quick-view">
+                        <a href="#" class="btn btn-sm btn-light">Vista rápida</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="product-title">Teclado Mecánico RGB Corsair K95</h5>
+                    <div class="product-rating mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span class="text-muted ms-2">(30)</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <span class="product-price">S/650.00</span>
+                        </div>
+                        <span class="badge bg-success">En stock</span>
+                    </div>
+                    <p class="text-muted small mb-3">Teclado mecánico premium con switches Cherry MX e iluminación RGB personalizable.</p>
+                    <div class="product-actions">
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        <button class="cart-btn">
+                            <i class="fas fa-cart-plus me-2"></i> Añadir al carrito
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Producto 6 -->
+        <div class="col-md-4">
+            <div class="card product-card">
+                <div class="position-relative">
+                    <img src="https://cdn.memorykings.pe/files/2023/10/19/348861-MK035708A.jpg" class="card-img-top product-img" alt="Mouse Gaming Logitech G Pro X">
+                    <div class="quick-view">
+                        <a href="#" class="btn btn-sm btn-light">Vista rápida</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="product-title">Mouse Gaming Logitech G Pro X</h5>
+                    <div class="product-rating mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span class="text-muted ms-2">(30)</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <span class="product-price">S/380.00</span>
+                        </div>
+                        <span class="badge bg-success">En stock</span>
+                    </div>
+                    <p class="text-muted small mb-3">Mouse gaming profesional con sensor HERO 25K y diseño ultraliviano.</p>
+                    <div class="product-actions">
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        <button class="cart-btn">
+                            <i class="fas fa-cart-plus me-2"></i> Añadir al carrito
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Producto 7 -->
+        <div class="col-md-4">
+            <div class="card product-card">
+                <div class="position-relative">
+                    <img src="https://www.lg.com/content/dam/channel/wcms/pe/images/monitores/27gr93u-b_awf_espr_pe_c/gallery/dz-3.jpg/_jcr_content/renditions/thum-1600x1062.jpeg" class="card-img-top product-img" alt="Monitor Gaming 27 144Hz">
+                    <div class="quick-view">
+                        <a href="#" class="btn btn-sm btn-light">Vista rápida</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="product-title">Monitor Gaming 27" 144Hz</h5>
+                    <div class="product-rating mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span class="text-muted ms-2">(30)</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <span class="product-price">S/1,200.00</span>
+                        </div>
+                        <span class="badge bg-success">En stock</span>
+                    </div>
+                    <p class="text-muted small mb-3">Monitor gaming QHD con 144Hz, 1ms de respuesta y tecnología G-Sync.</p>
+                    <div class="product-actions">
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        <button class="cart-btn">
+                            <i class="fas fa-cart-plus me-2"></i> Añadir al carrito
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Producto 8 -->
+        <div class="col-md-4">
+            <div class="card product-card">
+                <div class="position-relative">
+                    <img src="https://www.projectorpoint.co.uk/wp-content/uploads/2023/06/briopictograms-1.png" class="card-img-top product-img" alt="Webcam 4K Logitech Brio">
+                    <div class="quick-view">
+                        <a href="#" class="btn btn-sm btn-light">Vista rápida</a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="product-title">Webcam 4K Logitech Brio</h5>
+                    <div class="product-rating mb-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                        <span class="text-muted ms-2">(22)</span>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <div>
+                            <span class="product-price">S/450.00</span>
+                        </div>
+                        <span class="badge bg-success">En stock</span>
+                    </div>
+                    <p class="text-muted small mb-3">Webcam profesional 4K Ultra HD con HDR y enfoque automático avanzado.</p>
+                    <div class="product-actions">
+                        <button class="wishlist-btn">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        <button class="cart-btn">
+                            <i class="fas fa-cart-plus me-2"></i> Añadir al carrito
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+
+
+

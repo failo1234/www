@@ -1,0 +1,2220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tecnología - TechStore Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+     <style>
+        :root {
+            --primary-color: #0f3460;
+            --secondary-color: #16213e;
+            --accent-color: #e94560;
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-dark: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 100%);
+            --text-light: #f0f0f0;
+            --text-dark: #333;
+            --border-radius: 15px;
+            --box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        .header-premium {
+            background: var(--gradient-dark);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+        }
+
+        .brand-container {
+            text-decoration: none;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            padding: 8px;
+        }
+
+        .brand-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-link {
+            color: var(--text-light) !important;
+            font-weight: 500;
+            padding: 0.75rem 1.25rem !important;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: var(--gradient-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Auth Buttons */
+        .auth-buttons {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .btn-auth {
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+
+        .btn-login {
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.3);
+            color: var(--text-light);
+        }
+
+        .btn-login:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.5);
+            color: var(--text-light);
+            transform: translateY(-2px);
+        }
+
+        .btn-register {
+            background: var(--gradient-primary);
+            border: none;
+            color: white;
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.5);
+            color: white;
+        }
+
+        /* User Menu */
+        .user-menu {
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            min-width: 200px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: var(--transition);
+        }
+
+        .user-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .user-dropdown-header {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .user-dropdown-header h6 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+
+        .user-dropdown-header small {
+            color: #666;
+        }
+
+        .user-dropdown-item {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--text-dark);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .user-dropdown-item:hover {
+            background: #f8f9fa;
+            color: var(--accent-color);
+        }
+
+        .user-dropdown-item i {
+            margin-right: 0.5rem;
+        }
+
+        /* Modal Styles */
+        .modal-content {
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+
+        .modal-header {
+            background: var(--gradient-primary);
+            color: white;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+
+        .modal-header .btn-close {
+            filter: invert(1);
+        }
+
+        .auth-form {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 0.75rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+
+        .btn-auth-submit {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--gradient-primary);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn-auth-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .auth-divider {
+            text-align: center;
+            margin: 2rem 0;
+            position: relative;
+        }
+
+        .auth-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #dee2e6;
+        }
+
+        .auth-divider span {
+            background: white;
+            padding: 0 1rem;
+            color: #666;
+        }
+
+        .social-auth {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-social {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            background: white;
+            transition: var(--transition);
+        }
+
+        .btn-social:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+
+        .btn-google {
+            color: #db4437;
+        }
+
+        .btn-facebook {
+            color: #3b5998;
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #666;
+        }
+
+        .auth-switch a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Success/Error Messages */
+        .alert-custom {
+            border: none;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .alert-success-custom {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+        }
+
+        .alert-error-custom {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            color: #721c24;
+        }
+
+        /* Rest of the original styles... */
+        .tech-hero {
+            min-height: 100vh;
+            background: var(--gradient-dark);
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: var(--text-light);
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .auth-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+                margin-top: 1rem;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+        }
+        .tech-hero {
+            min-height: 100vh;
+            background: var(--gradient-dark);
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: var(--text-light);
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .hero-buttons .btn {
+            padding: 1rem 2rem;
+            font-weight: 600;
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            border: none;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-outline-light {
+            border: 2px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-outline-light:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-3px);
+        }
+
+        .floating-elements {
+            position: relative;
+            height: 500px;
+        }
+
+        .floating-icon {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            animation: float 6s ease-in-out infinite;
+            box-shadow: var(--box-shadow);
+        }
+
+        .floating-icon:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
+        .floating-icon:nth-child(2) { top: 30%; right: 10%; animation-delay: 1s; }
+        .floating-icon:nth-child(3) { top: 60%; left: 10%; animation-delay: 2s; }
+        .floating-icon:nth-child(4) { bottom: 20%; right: 30%; animation-delay: 3s; }
+        .floating-icon:nth-child(5) { bottom: 10%; left: 40%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .tech-categories {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-bottom: 3rem;
+        }
+
+        .category-card {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: var(--transition);
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .category-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 2.5rem;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .category-card:hover .category-icon {
+            transform: scale(1.1) rotate(360deg);
+        }
+
+        .category-card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .category-card p {
+            color: #666;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .category-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .category-features li {
+            padding: 0.5rem 0;
+            color: #555;
+        }
+
+        .category-features i {
+            color: #28a745;
+            margin-right: 0.5rem;
+        }
+
+        .featured-products {
+            background: var(--gradient-dark);
+            color: var(--text-light);
+        }
+
+        .featured-products .section-title {
+            color: var(--text-light);
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .featured-products .section-subtitle {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .product-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--gradient-secondary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .product-badge.sale {
+            background: var(--accent-color);
+        }
+
+        .product-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-info h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .old-price {
+            font-size: 1rem;
+            color: #999;
+            text-decoration: line-through;
+            margin-left: 0.5rem;
+        }
+
+        .product-rating {
+            color: #ffc107;
+        }
+
+        .product-rating span {
+            color: rgba(255,255,255,0.7);
+            margin-left: 0.5rem;
+        }
+
+        .tech-news {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text-light);
+        }
+
+        .news-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .news-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .news-image {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .news-image img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .news-card:hover .news-image img {
+            transform: scale(1.1);
+        }
+
+        .news-category {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: var(--gradient-secondary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .news-content {
+            padding: 1.5rem;
+        }
+
+        .news-content h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .news-content p {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .news-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .stats-section {
+            background: var(--primary-color);
+            color: var(--text-light);
+            padding: 4rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 2rem;
+        }
+
+                .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .testimonials {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 5rem 0;
+        }
+
+        .testimonial-card {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            margin: 1rem;
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            font-size: 4rem;
+            color: var(--accent-color);
+            position: absolute;
+            top: -1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 2rem;
+            color: #555;
+            line-height: 1.8;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .author-info h5 {
+            margin: 0;
+            color: var(--primary-color);
+        }
+
+        .author-info span {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .newsletter {
+            background: var(--gradient-dark);
+            color: var(--text-light);
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .newsletter-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .newsletter-form input {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            border-radius: var(--border-radius);
+            background: rgba(255,255,255,0.1);
+            color: var(--text-light);
+            backdrop-filter: blur(10px);
+        }
+
+        .newsletter-form input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .footer {
+            background: var(--secondary-color);
+            color: var(--text-light);
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            padding: 0.3rem 0;
+        }
+
+        .footer-section ul li a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--accent-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1rem;
+            text-align: center;
+            color: rgba(255,255,255,0.7);
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .floating-elements {
+                display: none;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+        }
+
+        .scroll-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+            z-index: 1000;
+        }
+
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+   <!-- Header -->
+    <header class="header-premium py-3 sticky-top">
+        <div class="container position-relative" style="z-index: 1;">
+            <nav class="navbar navbar-expand-lg navbar-dark p-0">
+                <div class="container-fluid p-0">
+                    <a class="navbar-brand d-flex align-items-center brand-container" href="index.html">
+                        <img src="https://png.pngtree.com/png-vector/20220622/ourmid/pngtree-technical-support-customer-care-service-png-image_5231980.png" alt="TechStore Pro Logo" class="me-3 logo-img">
+                        <span class="brand-text">TechStore Pro</span>
+                    </a>
+                    
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+                            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    
+                    <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+                        <ul class="navbar-nav mx-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="index.html">
+                                    <i class="fas fa-home me-1"></i> Inicio
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="services.html">
+                                    <i class="fas fa-mobile-alt me-1"></i> Servicios
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="about.html">
+                                    <i class="fas fa-keyboard me-1"></i> Contactos
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="productos.html">
+                                    <i class="fas fa-microchip me-1"></i> Tecnología
+                                </a>
+                            </li>
+                        </ul>
+                        
+                        <!-- Auth Section -->
+                        <div class="auth-section" id="authSection">
+                            <!-- Login/Register Buttons (shown when not logged in) -->
+                            <div class="auth-buttons" id="authButtons">
+                                <button class="btn btn-auth btn-login" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                    <i class="fas fa-sign-in-alt me-1"></i> Iniciar Sesión
+                                </button>
+                                <button class="btn btn-auth btn-register" data-bs-toggle="modal" data-bs-target="#registerModal">
+                                    <i class="fas fa-user-plus me-1"></i> Registrarse
+                                </button>
+                            </div>
+                            
+                            <!-- User Menu (shown when logged in) -->
+                            <div class="user-menu d-none" id="userMenu">
+                                <div class="user-avatar" id="userAvatar">
+                                    <span id="userInitials">U</span>
+                                </div>
+                                <div class="user-dropdown" id="userDropdown">
+                                    <div class="user-dropdown-header">
+                                        <h6 id="userName">Usuario</h6>
+                                        <small id="userEmail">email@example.com</small>
+                                    </div>
+                                    <a href="#" class="user-dropdown-item">
+                                        <i class="fas fa-user"></i> Mi Perfil
+                                    </a>
+                                    <a href="#" class="user-dropdown-item">
+                                        <i class="fas fa-shopping-cart"></i> Mis Pedidos
+                                    </a>
+                                    <a href="#" class="user-dropdown-item">
+                                        <i class="fas fa-heart"></i> Lista de Deseos
+                                    </a>
+                                    <a href="#" class="user-dropdown-item">
+                                        <i class="fas fa-cog"></i> Configuración
+                                    </a>
+                                    <hr class="my-2">
+                                    <a href="#" class="user-dropdown-item" id="logoutBtn">
+                                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">
+                        <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="auth-form" id="loginForm">
+                        <div id="loginMessages"></div>
+                        
+                        <div class="form-group">
+                            <label for="loginEmail" class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="loginEmail" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="loginPassword" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+                        
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">
+                                Recordarme
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-auth-submit">
+                            <i class="fas fa-sign-in-alt me-2"></i>Iniciar Sesión
+                        </button>
+                        
+                        <div class="auth-divider">
+                            <span>o continúa con</span>
+                        </div>
+                        
+                        <div class="social-auth">
+                            <button type="button" class="btn btn-social btn-google">
+                                <i class="fab fa-google"></i>
+                            </button>
+                            <button type="button" class="btn btn-social btn-facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="auth-switch">
+                            ¿No tienes cuenta? <a href="#" data-bs-toggle="modal" data-bs-target="#registerModal" data-bs-dismiss="modal">Regístrate aquí</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registerModalLabel">
+                        <i class="fas fa-user-plus me-2"></i>Crear Cuenta
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="auth-form" id="registerForm">
+                        <div id="registerMessages"></div>
+                        
+                        <div class="form-group">
+                            <label for="registerName" class="form-label">Nombre Completo</label>
+                            <input type="text" class="form-control" id="registerName" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="registerEmail" class="form-label">Correo Electrónico</label>
+                            <input type="email" class="form-control" id="registerEmail" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="registerPassword" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="registerPassword" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
+                            <input type="password" class="form-control" id="confirmPassword" required>
+                        </div>
+                        
+                        <div class="form-check mb-3">
+                            <input type="checkbox" class="form-check-input" id="acceptTerms" required>
+                            <label class="form-check-label" for="acceptTerms">
+                                Acepto los <a href="#" class="text-decoration-none">términos y condiciones</a>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-auth-submit">
+                            <i class="fas fa-user-plus me-2"></i>Crear Cuenta
+                        </button>
+                        
+                        <div class="auth-divider">
+                            <span>o regístrate con</span>
+                        </div>
+                        
+                        <div class="social-auth">
+                            <button type="button" class="btn btn-social btn-google">
+                                <i class="fab fa-google"></i>
+                            </button>
+                            <button type="button" class="btn btn-social btn-facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="auth-switch">
+                            ¿Ya tienes cuenta? <a href="#" data-bs-toggle="modal" data-bs-target="#loginModal" data-bs-dismiss="modal">Inicia sesión aquí</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="tech-hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h1 class="hero-title">Tecnología del Futuro</h1>
+                        <p class="hero-subtitle">
+                            Descubre las últimas innovaciones en tecnología. Desde dispositivos móviles hasta inteligencia artificial, 
+                            tenemos todo lo que necesitas para estar a la vanguardia.
+                        </p>
+                        <div class="hero-buttons">
+                            <a href="#productos" class="btn btn-primary me-3">
+                                <i class="fas fa-rocket me-2"></i>Explorar Productos
+                            </a>
+                            <a href="#categorias" class="btn btn-outline-light">
+                                <i class="fas fa-play me-2"></i>Ver Categorías
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="floating-elements">
+                        <div class="floating-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="floating-icon">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <div class="floating-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="floating-icon">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div class="floating-icon">
+                            <i class="fas fa-vr-cardboard"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Hero Section -->
+    <section class="tech-hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h1 class="hero-title">Innovación Tecnológica</h1>
+                        <p class="hero-subtitle">Descubre las últimas tendencias en tecnología y mantente a la vanguardia del futuro digital con productos de última generación</p>
+                        <div class="hero-buttons">
+                            <a href="#productos" class="btn btn-primary btn-lg me-3">
+                                <i class="fas fa-rocket me-2"></i>Explorar Productos
+                            </a>
+                            <a href="#noticias" class="btn btn-outline-light btn-lg">
+                                <i class="fas fa-newspaper me-2"></i>Últimas Noticias
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="hero-animation">
+                        <div class="floating-elements">
+                            <div class="floating-icon"><i class="fab fa-android"></i></div>
+                            <div class="floating-icon"><i class="fab fa-apple"></i></div>
+                            <div class="floating-icon"><i class="fas fa-laptop"></i></div>
+                            <div class="floating-icon"><i class="fas fa-microchip"></i></div>
+                            <div class="floating-icon"><i class="fas fa-robot"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Estadísticas -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <span class="stat-number">50K+</span>
+                        <span class="stat-label">Productos Vendidos</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <span class="stat-number">15K+</span>
+                        <span class="stat-label">Clientes Satisfechos</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Marcas Asociadas</span>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="stat-item">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Soporte Técnico</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categorías Principales -->
+    <section class="tech-categories py-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="section-title">Categorías Tecnológicas</h2>
+                    <p class="section-subtitle">Explora nuestras principales áreas de especialización en tecnología de vanguardia</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>Dispositivos Móviles</h3>
+                        <p>Smartphones, tablets y accesorios de última generación con tecnología 5G, IA integrada y sistemas operativos avanzados para una experiencia móvil superior.</p>
+                        <ul class="category-features">
+                            <li><i class="fas fa-check"></i> Smartphones 5G Premium</li>
+                            <li><i class="fas fa-check"></i> Tablets Pro con Stylus</li>
+                            <li><i class="fas fa-check"></i> Accesorios Inalámbricos</li>
+                            <li><i class="fas fa-check"></i> Cargadores Rápidos</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline-primary">Ver Productos</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <h3>Computación Avanzada</h3>
+                        <p>Laptops gaming, PCs workstation, componentes de alto rendimiento y sistemas personalizados para profesionales y entusiastas de la tecnología.</p>
+                        <ul class="category-features">
+                            <li><i class="fas fa-check"></i> Gaming PCs RTX 4090</li>
+                            <li><i class="fas fa-check"></i> Laptops Ultrabook</li>
+                            <li><i class="fas fa-check"></i> Componentes Pro</li>
+                            <li><i class="fas fa-check"></i> Sistemas Personalizados</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline-primary">Ver Productos</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h3>Smart Home & IoT</h3>
+                        <p>Dispositivos inteligentes para automatizar tu hogar con IoT, control por voz, seguridad avanzada y sistemas de domótica integrados.</p>
+                        <ul class="category-features">
+                            <li><i class="fas fa-check"></i> Asistentes de Voz IA</li>
+                            <li><i class="fas fa-check"></i> Domótica Avanzada</li>
+                            <li><i class="fas fa-check"></i> Seguridad Smart 4K</li>
+                            <li><i class="fas fa-check"></i> Iluminación Inteligente</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline-primary">Ver Productos</a>
+                                            </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                        <h3>Audio & Gaming</h3>
+                        <p>Auriculares premium, sistemas de sonido envolvente, equipos gaming profesionales y accesorios para una experiencia audiovisual inmersiva.</p>
+                        <ul class="category-features">
+                            <li><i class="fas fa-check"></i> Auriculares Noise Cancelling</li>
+                            <li><i class="fas fa-check"></i> Sistemas Surround 7.1</li>
+                            <li><i class="fas fa-check"></i> Teclados Mecánicos RGB</li>
+                            <li><i class="fas fa-check"></i> Ratones Gaming Pro</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline-primary">Ver Productos</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <h3>Fotografía & Video</h3>
+                        <p>Cámaras profesionales, drones 4K, equipos de streaming, iluminación LED y accesorios para creadores de contenido digital.</p>
+                        <ul class="category-features">
+                            <li><i class="fas fa-check"></i> Cámaras Mirrorless 8K</li>
+                            <li><i class="fas fa-check"></i> Drones Profesionales</li>
+                            <li><i class="fas fa-check"></i> Equipos de Streaming</li>
+                            <li><i class="fas fa-check"></i> Iluminación LED Pro</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline-primary">Ver Productos</a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="category-card">
+                        <div class="category-icon">
+                            <i class="fas fa-vr-cardboard"></i>
+                        </div>
+                        <h3>Realidad Virtual & AR</h3>
+                        <p>Dispositivos de realidad virtual, gafas AR, controladores hápticos y experiencias inmersivas para gaming, educación y entretenimiento.</p>
+                        <ul class="category-features">
+                            <li><i class="fas fa-check"></i> Cascos VR 4K</li>
+                            <li><i class="fas fa-check"></i> Gafas AR Inteligentes</li>
+                            <li><i class="fas fa-check"></i> Controladores Hápticos</li>
+                            <li><i class="fas fa-check"></i> Experiencias Inmersivas</li>
+                        </ul>
+                        <a href="#" class="btn btn-outline-primary">Ver Productos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Productos Destacados -->
+    <section id="productos" class="featured-products py-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="section-title">Productos Destacados</h2>
+                    <p class="section-subtitle">Los dispositivos más innovadores y populares del mercado tecnológico</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="product-card">
+                        <div class="product-badge">Nuevo</div>
+                        <div class="product-image">
+                            <img src="https://via.placeholder.com/300x200/1a1a2e/ffffff?text=iPhone+15+Pro" alt="iPhone 15 Pro">
+                            <div class="product-overlay">
+                                <a href="#" class="btn btn-light btn-sm"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-cart-plus"></i></a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4>iPhone 15 Pro Max</h4>
+                            <p class="product-price">$1,299.99</p>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(4.9)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="product-card">
+                        <div class="product-badge sale">Oferta</div>
+                        <div class="product-image">
+                            <img src="https://via.placeholder.com/300x200/1a1a2e/ffffff?text=MacBook+Pro" alt="MacBook Pro">
+                            <div class="product-overlay">
+                                <a href="#" class="btn btn-light btn-sm"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-cart-plus"></i></a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4>MacBook Pro M3</h4>
+                            <p class="product-price">$2,199.99 <span class="old-price">$2,499.99</span></p>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(4.8)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://via.placeholder.com/300x200/1a1a2e/ffffff?text=Samsung+Galaxy" alt="Samsung Galaxy">
+                            <div class="product-overlay">
+                                <a href="#" class="btn btn-light btn-sm"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-cart-plus"></i></a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4>Samsung Galaxy S24 Ultra</h4>
+                            <p class="product-price">$1,199.99</p>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>(4.7)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="product-card">
+                        <div class="product-badge">Popular</div>
+                        <div class="product-image">
+                            <img src="https://via.placeholder.com/300x200/1a1a2e/ffffff?text=Gaming+PC" alt="Gaming PC">
+                            <div class="product-overlay">
+                                <a href="#" class="btn btn-light btn-sm"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-cart-plus"></i></a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4>Gaming PC RTX 4080</h4>
+                            <p class="product-price">$2,899.99</p>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(5.0)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="product-card">
+                        <div class="product-badge">Exclusivo</div>
+                        <div class="product-image">
+                            <img src="https://via.placeholder.com/300x200/1a1a2e/ffffff?text=AirPods+Pro" alt="AirPods Pro">
+                            <div class="product-overlay">
+                                <a href="#" class="btn btn-light btn-sm"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-cart-plus"></i></a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4>AirPods Pro 3rd Gen</h4>
+                            <p class="product-price">$249.99</p>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(4.8)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://via.placeholder.com/300x200/1a1a2e/ffffff?text=PlayStation+5" alt="PlayStation 5">
+                            <div class="product-overlay">
+                                <a href="#" class="btn btn-light btn-sm"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-cart-plus"></i></a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4>PlayStation 5 Pro</h4>
+                            <p class="product-price">$699.99</p>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(4.9)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="product-card">
+                        <div class="product-badge sale">-20%</div>
+                        <div class="product-image">
+                            <img src="https://via.placeholder.com/300x200/1a1a2e/ffffff?text=Meta+Quest+3" alt="Meta Quest 3">
+                            <div class="product-overlay">
+                                <a href="#" class="btn btn-light btn-sm"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-cart-plus"></i></a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4>Meta Quest 3 VR</h4>
+                            <p class="product-price">$399.99 <span class="old-price">$499.99</span></p>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span>(4.6)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://via.placeholder.com/300x200/1a1a2e/ffffff?text=Tesla+Bot" alt="Tesla Bot">
+                            <div class="product-overlay">
+                                <a href="#" class="btn btn-light btn-sm"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="btn btn-primary btn-sm"><i class="fas fa-cart-plus"></i></a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <h4>Tesla Optimus Robot</h4>
+                            <p class="product-price">$20,000.00</p>
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <span>(4.9)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Noticias Tecnológicas -->
+    <section id="noticias" class="tech-news py-5">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="section-title">Últimas Noticias Tech</h2>
+                    <p class="section-subtitle">Mantente informado sobre las últimas innovaciones y tendencias tecnológicas</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <article class="news-card">
+                        <div class="news-image">
+                            <img src="https://via.placeholder.com/400x250/0f3460/ffffff?text=IA+Revolution" alt="IA Revolution">
+                            <div class="news-category">Inteligencia Artificial</div>
+                        </div>
+                        <div class="news-content">
+                            <h3>La Revolución de la IA en 2024</h3>
+                                                        <p>Descubre cómo la inteligencia artificial está transformando industrias completas y creando nuevas oportunidades de negocio en el panorama tecnológico actual. Los avances en machine learning y deep learning están revolucionando sectores como la medicina, educación y finanzas.</p>
+                            <div class="news-meta">
+                                <span><i class="fas fa-calendar"></i> 15 Dic 2024</span>
+                                <span><i class="fas fa-user"></i> Tech Editor</span>
+                            </div>
+                            <a href="#" class="btn btn-outline-light btn-sm">Leer más</a>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <article class="news-card">
+                        <div class="news-image">
+                            <img src="https://via.placeholder.com/400x250/0f3460/ffffff?text=5G+Future" alt="5G Future">
+                            <div class="news-category">Conectividad</div>
+                        </div>
+                        <div class="news-content">
+                            <h3>El Futuro del 5G y 6G</h3>
+                            <p>La tecnología 5G continúa expandiéndose globalmente mientras los investigadores ya trabajan en las especificaciones del 6G. Velocidades de hasta 1TB/s y latencia casi nula prometen cambiar para siempre nuestra forma de conectarnos.</p>
+                            <div class="news-meta">
+                                <span><i class="fas fa-calendar"></i> 12 Dic 2024</span>
+                                <span><i class="fas fa-user"></i> Network Specialist</span>
+                            </div>
+                            <a href="#" class="btn btn-outline-light btn-sm">Leer más</a>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <article class="news-card">
+                        <div class="news-image">
+                            <img src="https://via.placeholder.com/400x250/0f3460/ffffff?text=Quantum+Computing" alt="Quantum Computing">
+                            <div class="news-category">Computación Cuántica</div>
+                        </div>
+                        <div class="news-content">
+                            <h3>Avances en Computación Cuántica</h3>
+                            <p>Los últimos desarrollos en computación cuántica prometen resolver problemas complejos en segundos que tomarían años a las supercomputadoras actuales. IBM y Google lideran esta carrera tecnológica.</p>
+                            <div class="news-meta">
+                                <span><i class="fas fa-calendar"></i> 10 Dic 2024</span>
+                                <span><i class="fas fa-user"></i> Quantum Expert</span>
+                            </div>
+                            <a href="#" class="btn btn-outline-light btn-sm">Leer más</a>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <article class="news-card">
+                        <div class="news-image">
+                            <img src="https://via.placeholder.com/400x250/0f3460/ffffff?text=Metaverse+2024" alt="Metaverse 2024">
+                            <div class="news-category">Realidad Virtual</div>
+                        </div>
+                        <div class="news-content">
+                            <h3>El Metaverso en 2024: Realidad o Ficción</h3>
+                            <p>Análisis profundo sobre el estado actual del metaverso, las inversiones millonarias de las grandes tecnológicas y cómo esta tecnología está evolucionando hacia experiencias más inmersivas y realistas.</p>
+                            <div class="news-meta">
+                                <span><i class="fas fa-calendar"></i> 8 Dic 2024</span>
+                                <span><i class="fas fa-user"></i> VR Analyst</span>
+                            </div>
+                            <a href="#" class="btn btn-outline-light btn-sm">Leer más</a>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <article class="news-card">
+                        <div class="news-image">
+                            <img src="https://via.placeholder.com/400x250/0f3460/ffffff?text=Blockchain+Evolution" alt="Blockchain Evolution">
+                            <div class="news-category">Blockchain</div>
+                        </div>
+                        <div class="news-content">
+                            <h3>Blockchain Más Allá de las Criptomonedas</h3>
+                            <p>Exploramos las aplicaciones innovadoras de blockchain en supply chain, healthcare, voting systems y smart contracts. La tecnología distribuida está creando nuevos paradigmas de confianza digital.</p>
+                            <div class="news-meta">
+                                <span><i class="fas fa-calendar"></i> 5 Dic 2024</span>
+                                <span><i class="fas fa-user"></i> Blockchain Dev</span>
+                            </div>
+                            <a href="#" class="btn btn-outline-light btn-sm">Leer más</a>
+                        </div>
+                    </article>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <article class="news-card">
+                        <div class="news-image">
+                            <img src="https://via.placeholder.com/400x250/0f3460/ffffff?text=Sustainable+Tech" alt="Sustainable Tech">
+                            <div class="news-category">Sostenibilidad</div>
+                        </div>
+                        <div class="news-content">
+                            <h3>Tecnología Verde y Sostenible</h3>
+                            <p>Las empresas tecnológicas apuestan por la sostenibilidad con centros de datos alimentados por energía renovable, dispositivos más eficientes y programas de reciclaje innovadores para reducir el impacto ambiental.</p>
+                            <div class="news-meta">
+                                <span><i class="fas fa-calendar"></i> 3 Dic 2024</span>
+                                <span><i class="fas fa-user"></i> Green Tech</span>
+                            </div>
+                            <a href="#" class="btn btn-outline-light btn-sm">Leer más</a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonios -->
+    <section class="testimonials">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-12 text-center">
+                    <h2 class="section-title">Lo Que Dicen Nuestros Clientes</h2>
+                    <p class="section-subtitle">Experiencias reales de usuarios satisfechos con nuestros productos tecnológicos</p>
+                </div>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">"TechStore Pro me ayudó a encontrar el setup gaming perfecto. La calidad de los productos y el servicio al cliente son excepcionales. Definitivamente mi tienda de tecnología favorita."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">MG</div>
+                            <div class="author-info">
+                                <h5>Miguel García</h5>
+                                <span>Gamer Profesional</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">"Como desarrolladora, necesito equipos confiables. TechStore Pro siempre tiene los últimos MacBook Pro y la asesoría técnica es de primer nivel. Muy recomendado para profesionales."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">AR</div>
+                            <div class="author-info">
+                                <h5>Ana Rodríguez</h5>
+                                <span>Desarrolladora Full Stack</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">"Compré mi sistema de smart home completo aquí. La instalación fue perfecta y ahora mi casa es completamente automatizada. La tecnología del futuro está aquí."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">CL</div>
+                            <div class="author-info">
+                                <h5>Carlos López</h5>
+                                <span>Arquitecto</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="section-title">Mantente Actualizado</h2>
+                    <p class="section-subtitle">Suscríbete a nuestro newsletter y recibe las últimas noticias tecnológicas, ofertas exclusivas y lanzamientos de productos</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Ingresa tu email" required>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane me-2"></i>Suscribirse
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>TechStore Pro</h4>
+                    <p>Tu destino definitivo para la tecnología más avanzada. Ofrecemos productos de calidad premium con garantía extendida y soporte técnico especializado.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Productos</h4>
+                    <ul>
+                        <li><a href="#">Smartphones</a></li>
+                        <li><a href="#">Laptops & PCs</a></li>
+                        <li><a href="#">Gaming</a></li>
+                        <li><a href="#">Smart Home</a></li>
+                        <li><a href="#">Accesorios</a></li>
+                        <li><a href="#">Realidad Virtual</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Servicios</h4>
+                    <ul>
+                        <li><a href="#">Soporte Técnico</a></li>
+                        <li><a href="#">Instalación</a></li>
+                        <li><a href="#">Garantía Extendida</a></li>
+                        <li><a href="#">Reparaciones</a></li>
+                        <li><a href="#">Consultoría IT</a></li>
+                        <li><a href="#">Financiamiento</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contacto</h4>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt me-2"></i>Av. Tecnología 123, Tech City</li>
+                        <li><i class="fas fa-phone me-2"></i>+1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope me-2"></i>info@techstorepro.com</li>
+                        <li><i class="fas fa-clock me-2"></i>Lun-Vie: 9AM-8PM</li>
+                        <li><i class="fas fa-clock me-2"></i>Sáb-Dom: 10AM-6PM</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 TechStore Pro. Todos los derechos reservados. | Política de Privacidad | Términos de Servicio</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <a href="#" class="scroll-to-top" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Scroll to top functionality
+        const scrollToTopBtn = document.getElementById('scrollToTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollToTopBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Newsletter form submission
+        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            alert('¡Gracias por suscribirte! Te mantendremos informado sobre las últimas novedades tecnológicas.');
+            this.reset();
+        });
+
+        // Add loading animation to product cards
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Animate statistics on scroll
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+                const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    statNumbers.forEach(stat => {
+                        const finalValue = stat.textContent;
+                        const numericValue = parseInt(finalValue.replace(/\D/g, ''));
+                        const suffix = finalValue.replace(/[\d,]/g, '');
+                        
+                        let currentValue = 0;
+                        const increment = numericValue / 50;
+                        
+                        const timer = setInterval(() => {
+                            currentValue += increment;
+                            if (currentValue >= numericValue) {
+                                stat.textContent = finalValue;
+                                clearInterval(timer);
+                            } else {
+                                stat.textContent = Math.floor(currentValue).toLocaleString() + suffix;
+                            }
+                        }, 30);
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        const statsSection = document.querySelector('.stats-section');
+        if (statsSection) {
+            observer.observe(statsSection);
+        }
+
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallaxElements = document.querySelectorAll('.floating-icon');
+            
+            parallaxElements.forEach((element, index) => {
+                const speed = 0.5 + (index * 0.1);
+                element.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.1}deg)`;
+            });
+        });
+
+        // Product card hover effects
+        document.querySelectorAll('.product-card').forEach(card => {
+            const overlay = card.querySelector('.product-overlay');
+            const image = card.querySelector('.product-image img');
+            
+            card.addEventListener('mouseenter', () => {
+                overlay.style.opacity = '1';
+                image.style.transform = 'scale(1.1)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                overlay.style.opacity = '0';
+                image.style.transform = 'scale(1)';
+            });
+        });
+
+        // Category card animations
+        document.querySelectorAll('.category-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                const icon = this.querySelector('.category-icon');
+                icon.style.transform = 'scale(1.1) rotate(360deg)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                const icon = this.querySelector('.category-icon');
+                icon.style.transform = 'scale(1) rotate(0deg)';
+            });
+        });
+
+        // News card hover effects
+        document.querySelectorAll('.news-card').forEach(card => {
+            const image = card.querySelector('.news-image img');
+            
+            card.addEventListener('mouseenter', () => {
+                image.style.transform = 'scale(1.1)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                image.style.transform = 'scale(1)';
+            });
+        });
+
+        // Add to cart functionality
+        document.querySelectorAll('.fa-cart-plus').forEach(button => {
+            button.closest('.btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Create floating cart animation
+                const cartIcon = document.createElement('div');
+                cartIcon.innerHTML = '<i class="fas fa-shopping-cart"></i>';
+                cartIcon.style.cssText = `
+                    position: fixed;
+                    top: ${e.clientY}px;
+                    left: ${e.clientX}px;
+                    z-index: 9999;
+                    color: #e94560;
+                    font-size: 2rem;
+                    pointer-events: none;
+                    animation: cartFloat 1s ease-out forwards;
+                `;
+                
+                document.body.appendChild(cartIcon);
+                
+                setTimeout(() => {
+                    cartIcon.remove();
+                    alert('Producto agregado al carrito');
+                }, 1000);
+            });
+        });
+
+        // Add CSS animation for cart float
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes cartFloat {
+                0% {
+                    transform: translateY(0) scale(1);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateY(-100px) scale(0.5);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Testimonial carousel auto-scroll
+        let testimonialIndex = 0;
+        const testimonials = document.querySelectorAll('.testimonial-card');
+        
+        function rotateTestimonials() {
+            testimonials.forEach((testimonial, index) => {
+                testimonial.style.opacity = index === testimonialIndex ? '1' : '0.7';
+                testimonial.style.transform = index === testimonialIndex ? 'scale(1.05)' : 'scale(1)';
+            });
+            
+            testimonialIndex = (testimonialIndex + 1) % testimonials.length;
+        }
+
+        // Start testimonial rotation
+        if (testimonials.length > 0) {
+            setInterval(rotateTestimonials, 4000);
+        }
+
+        // Search functionality (if search input exists)
+        const searchInput = document.querySelector('#searchInput');
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const products = document.querySelectorAll('.product-card');
+                
+                products.forEach(product => {
+                    const productName = product.querySelector('h4').textContent.toLowerCase();
+                    if (productName.includes(searchTerm)) {
+                        product.style.display = 'block';
+                    } else {
+                        product.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Loading screen
+        window.addEventListener('load', function() {
+            const loader = document.querySelector('.loader');
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500);
+            }
+        });
+
+        // Add intersection observer for fade-in animations
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        // Apply fade-in to all cards
+        document.querySelectorAll('.category-card, .product-card, .news-card, .testimonial-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            fadeObserver.observe(card);
+        });
+
+        // Mobile menu improvements
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        const navbarCollapse = document.querySelector('.navbar-collapse');
+        
+        if (navbarToggler && navbarCollapse) {
+            navbarToggler.addEventListener('click', function() {
+                setTimeout(() => {
+                    if (navbarCollapse.classList.contains('show')) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = 'auto';
+                    }
+                }, 300);
+            });
+        }
+
+        // Close mobile menu when clicking on links
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                const navbarCollapse = document.querySelector('.navbar-collapse');
+                if (navbarCollapse.classList.contains('show')) {
+                    document.querySelector('.navbar-toggler').click();
+                }
+            });
+        });
+
+        // Add dynamic year to footer
+        const currentYear = new Date().getFullYear();
+        const footerText = document.querySelector('.footer-bottom p');
+        if (footerText) {
+            footerText.innerHTML = footerText.innerHTML.replace('2024', currentYear);
+        }
+
+        // Performance optimization: Lazy loading for images
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src || img.src;
+                        img.classList.remove('lazy');
+                        observer.unobserve(img);
+                    }
+                });
+            });
+
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+
+        console.log('TechStore Pro - Página de Tecnología cargada exitosamente! 🚀');
+    </script>
+</body>
+</html>
